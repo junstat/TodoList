@@ -12,11 +12,10 @@ sys.setdefaultencoding("utf-8")
 
 
 # TODO: 2020-04-19  16:10
-# 1. change order
-# 2. del task
-# 3. reset tasks
-# 4. using link list save tasks
-
+# 1. del task
+# 2. reset tasks
+# 3. using link list save tasks
+# 4. change title
 
 @parse_argument
 def main(wf, worker=None):
@@ -28,6 +27,7 @@ def main(wf, worker=None):
             valid=True,
             arg="{} {}".format(worker.str_status_reverse(task.status), task.display_num),
             icon=DONE_ICON if task.status == "done" else DOING_ICON,
+
         )
 
     wf.send_feedback()

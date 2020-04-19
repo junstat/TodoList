@@ -17,6 +17,7 @@ def parse_argument(func):
         parser.add_argument('--del', dest='del_num', nargs='?', default=None)
         parser.add_argument('--done', dest='done_num', nargs='?', default=None)
         parser.add_argument('--doing', dest='doing_num', nargs='?', default=None)
+        parser.add_argument('--order', dest='orders', nargs='?', default=None)
         # add an optional query and save it to 'query'
         parser.add_argument('query', nargs='?', default=None)
         args = parser.parse_args(wf.args)
@@ -36,7 +37,9 @@ def parse_argument(func):
         elif args.doing_num:  # set doing
             worker.task_status_reverse(job_type="doing", task_num=args.doing_num)
             return 0
-
+        elif args.orders:
+            worker.set_order(orders=args.orders)
+            return 0
         return func(wf, worker)
 
     return wrapper

@@ -42,6 +42,19 @@ class TaskOperator(object):
         self.load_tasks()
         self.sort_tasks()
 
+    def set_order(self, orders=None):
+        if isinstance(orders, str) or isinstance(orders, unicode):
+            orders = [int(x) - 1 for x in orders.split()]
+
+        if len(self._doing_tasks) != len(orders):
+            orders.extend([x for x in range(len(self._doing_tasks)) if x not in orders])
+
+        for idx, x in enumerate(orders):
+            task = self._doing_tasks[x]
+            task.display_num = idx
+
+        self.dump_tasks()
+
     @property
     def tasks(self):
         self.sort_tasks()
@@ -104,6 +117,7 @@ class TaskOperator(object):
                 task_list.append(task)
 
     def dump_tasks(self, file_path=DEFAULT_FILE_PATH):
+        self.sort_tasks()
         with open(file_path, "w") as f:
             for inx, task in enumerate(self.tasks):
                 if inx != 0:
