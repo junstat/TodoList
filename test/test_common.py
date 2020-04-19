@@ -17,6 +17,10 @@ class TaskOperatorTest(unittest.TestCase):
         for task in self.worker.tasks:
             print task
 
+    def test_task_finished(self):
+        self.worker.status_reverse(job_type="doing", task_num=str(0))
+        print self.worker.tasks[1]
+
 
 if __name__ == '__main__':
     unittest.main()
