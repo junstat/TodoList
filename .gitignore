@@ -1,6 +1,8 @@
 .idea
 *.txt
 *.xmind
+*.plist
+demo.*
 workflow/
 
 # Byte-compiled / optimized / DLL files
