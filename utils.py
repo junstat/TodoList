@@ -18,9 +18,10 @@ def parse_argument(func):
         # build argument parser to parse script args and collect their values
         parser = argparse.ArgumentParser()
         parser.add_argument('--add', dest='new_task', nargs='?', default=None)  # add new task
-        parser.add_argument('--del', dest='del_num', nargs='?', default=None)
-        parser.add_argument('--done', dest='done_num', nargs='?', default=None)
-        parser.add_argument('--doing', dest='doing_num', nargs='?', default=None)
+        parser.add_argument('--del_done', dest='del_done_num', nargs='?', default=None)
+        parser.add_argument('--del_doing', dest='del_doing_num', nargs='?', default=None)
+        parser.add_argument('--set_done', dest='set_done_num', nargs='?', default=None)
+        parser.add_argument('--set_doing', dest='set_doing_num', nargs='?', default=None)
         parser.add_argument('--order', dest='orders', nargs='?', default=None)
         # add an optional query and save it to 'query'
         parser.add_argument('query', nargs='?', default=None)
@@ -38,14 +39,17 @@ def parse_argument(func):
         if args.new_task:
             worker.add_one_task(title=args.new_task)
             return 0
-        elif args.del_num:
-            worker.del_one_task(args.task_num)
-            return 0
-        elif args.done_num:  # set done
+        elif args.set_done_num:  # set done
             worker.task_status_reverse(job_type="done", task_num=args.done_num)
             return 0
-        elif args.doing_num:  # set doing
+        elif args.set_doing_num:  # set doing
             worker.task_status_reverse(job_type="doing", task_num=args.doing_num)
+            return 0
+        elif args.del_done_num:
+            worker.del_one_task("done", args.del_done_num)
+            return 0
+        elif args.del_doing_num:
+            worker.del_one_task("doing", args.del_done_num)
             return 0
         elif args.orders:
             worker.set_order(orders=args.orders)

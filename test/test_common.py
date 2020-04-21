@@ -12,6 +12,11 @@ class TaskOperatorTest(unittest.TestCase):
     def setUp(self):
         self.worker = TaskOperator()
 
+    def test_del_one_task(self):
+        self.worker.del_one_task("done", u"1")
+        for task in self.worker.tasks:
+            print task
+
     def test_sort_tasks(self):
         self.worker.sort_tasks()
         for task in self.worker.tasks:

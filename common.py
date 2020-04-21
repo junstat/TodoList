@@ -7,6 +7,7 @@ DEFAULT_FILE_PATH = os.path.expanduser('~/Todolist/demo.txt')
 
 DOING_ICON = "./icons/doing.png"
 DONE_ICON = "./icons/done.png"
+DELETE_ICON = "./icons/delete.png"
 
 
 class Task(object):
@@ -55,7 +56,7 @@ class TaskOperator(Singleton):
         self.sort_tasks()
 
     def set_order(self, orders=None):
-        if isinstance(orders, str) or isinstance(orders, unicode):
+        if isinstance(orders, basestring):
             orders = [int(x) - 1 for x in orders.split()]
 
         if len(self._doing_tasks) != len(orders):
@@ -111,13 +112,11 @@ class TaskOperator(Singleton):
         self._doing_tasks.append(Task(title))
         self.dump_tasks()
 
-    def del_one_task(self, task_num):
-        if isinstance(task_num, str):
+    def del_one_task(self, task_type, task_num):
+        if isinstance(task_num, basestring):
             task_num = int(task_num)
-        if task_num >= len(self._doing_tasks):
-            self._done_tasks.pop(task_num)
-        else:
-            self._doing_tasks.pop(task_num)
+        task_list = self.belong_to_which_tasks(task_type)
+        task_list.pop(task_num)
         self.dump_tasks()
 
     def sort_tasks(self):
