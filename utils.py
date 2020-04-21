@@ -8,6 +8,10 @@ from functools import wraps
 from common import TaskOperator
 
 
+def search_key_for_task(task):
+    return unicode(task.title)
+
+
 def parse_argument(func):
     @wraps(func)
     def wrapper(wf):
@@ -22,7 +26,13 @@ def parse_argument(func):
         parser.add_argument('query', nargs='?', default=None)
         args = parser.parse_args(wf.args)
 
-        worker = TaskOperator()
+        worker = TaskOperator.get_instance()
+
+        query = args.query
+        if query:
+            worker.filter_tasks = wf.filter(query, worker.tasks, key=search_key_for_task)
+        else:
+            worker.filter_tasks = worker.tasks
 
         sys.stderr.write("args = {}\n".format(args))
         if args.new_task:
@@ -40,6 +50,24 @@ def parse_argument(func):
         elif args.orders:
             worker.set_order(orders=args.orders)
             return 0
-        return func(wf, worker)
+        return func(wf)
 
     return wrapper
+
+
+'''
+def singleton(cls):
+    """
+    Singleton decorate
+    :param cls:
+    :return:
+    """
+    _instance = {}
+
+    def inner():
+        if cls not in _instance:
+            _instance[cls] = cls()
+        return _instance[cls]
+
+    return inner
+'''

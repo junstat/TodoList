@@ -30,15 +30,27 @@ class Task(object):
 
     def __repr__(self):
         return "Task No.{num}:{title} [{status}]".format(
-            num=self.display_num, title=self.title, status=self.status
+            num=self.display_num + 1, title=self.title, status=self.status
         )
 
 
-class TaskOperator(object):
+class Singleton(object):
+    _instance = None
+
+    @classmethod
+    def get_instance(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = cls(*args, **kwargs)
+        return cls._instance
+
+
+# @singleton
+class TaskOperator(Singleton):
 
     def __init__(self):
         self._doing_tasks = []
         self._done_tasks = []
+        self._tasks = []
         self.load_tasks()
         self.sort_tasks()
 
@@ -59,6 +71,14 @@ class TaskOperator(object):
     def tasks(self):
         self.sort_tasks()
         return self._doing_tasks + self._done_tasks
+
+    @property
+    def filter_tasks(self):
+        return self._tasks
+
+    @filter_tasks.setter
+    def filter_tasks(self, val):
+        self._tasks = val
 
     def belong_to_which_tasks(self, status):
         return getattr(self, "_{}_tasks".format(status))
