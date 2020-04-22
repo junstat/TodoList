@@ -55,6 +55,13 @@ class TaskOperator(Singleton):
         self.load_tasks()
         self.sort_tasks()
 
+    def reset_tasks(self):
+        for task in self._done_tasks[::-1]:
+            task.status_reverse()
+            self._done_tasks.remove(task)
+            self._doing_tasks.append(task)
+        self.dump_tasks()
+
     def set_order(self, orders=None):
         if isinstance(orders, basestring):
             orders = [int(x) - 1 for x in orders.split()]

@@ -12,9 +12,8 @@ sys.setdefaultencoding("utf-8")
 
 
 # TODO: 2020-04-19  16:10
-# 1. reset tasks -> tdre
-# 2. using link list save tasks
-# 3. change title ->
+# 1. using link list save tasks
+# 2. change title ->
 
 @parse_argument
 def main(wf):

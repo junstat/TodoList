@@ -15,9 +15,12 @@ def search_key_for_task(task):
 def parse_argument(func):
     @wraps(func)
     def wrapper(wf):
+        worker = TaskOperator.get_instance()
+
         # build argument parser to parse script args and collect their values
         parser = argparse.ArgumentParser()
         parser.add_argument('--add', dest='new_task', nargs='?', default=None)  # add new task
+        parser.add_argument('reset')
         parser.add_argument('--del_done', dest='del_done_num', nargs='?', default=None)
         parser.add_argument('--del_doing', dest='del_doing_num', nargs='?', default=None)
         parser.add_argument('--set_done', dest='set_done_num', nargs='?', default=None)
@@ -26,8 +29,6 @@ def parse_argument(func):
         # add an optional query and save it to 'query'
         parser.add_argument('query', nargs='?', default=None)
         args = parser.parse_args(wf.args)
-
-        worker = TaskOperator.get_instance()
 
         query = args.query
         if query:
@@ -53,6 +54,9 @@ def parse_argument(func):
             return 0
         elif args.orders:
             worker.set_order(orders=args.orders)
+            return 0
+        elif args.reset:
+            worker.reset_tasks()
             return 0
         return func(wf)
 
