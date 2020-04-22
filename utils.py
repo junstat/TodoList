@@ -20,7 +20,7 @@ def parse_argument(func):
         # build argument parser to parse script args and collect their values
         parser = argparse.ArgumentParser()
         parser.add_argument('--add', dest='new_task', nargs='?', default=None)  # add new task
-        parser.add_argument('reset')
+        parser.add_argument('--reset', action="store_const", const=True)
         parser.add_argument('--del_done', dest='del_done_num', nargs='?', default=None)
         parser.add_argument('--del_doing', dest='del_doing_num', nargs='?', default=None)
         parser.add_argument('--set_done', dest='set_done_num', nargs='?', default=None)
@@ -41,10 +41,10 @@ def parse_argument(func):
             worker.add_one_task(title=args.new_task)
             return 0
         elif args.set_done_num:  # set done
-            worker.task_status_reverse(job_type="done", task_num=args.done_num)
+            worker.task_status_reverse(job_type="done", task_num=args.set_done_num)
             return 0
         elif args.set_doing_num:  # set doing
-            worker.task_status_reverse(job_type="doing", task_num=args.doing_num)
+            worker.task_status_reverse(job_type="doing", task_num=args.set_doing_num)
             return 0
         elif args.del_done_num:
             worker.del_one_task("done", args.del_done_num)

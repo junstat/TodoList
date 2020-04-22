@@ -3,7 +3,7 @@
 # @Time   : 2020/4/19 12:53
 import os
 
-DEFAULT_FILE_PATH = os.path.expanduser('~/Todolist/demo.txt')
+DEFAULT_FILE_PATH = os.path.expanduser('~/Todolist/todo.txt')
 
 DOING_ICON = "./icons/doing.png"
 DONE_ICON = "./icons/done.png"
