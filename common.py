@@ -55,11 +55,16 @@ class TaskOperator(Singleton):
         self.load_tasks()
         self.sort_tasks()
 
+    def change_task_title(self, task_num, new_title):
+        if isinstance(task_num, basestring):
+            task_num = int(task_num) - 1
+        self.tasks[task_num].title = new_title
+        self.dump_tasks()
+
     def reset_tasks(self):
-        for task in self._done_tasks[::-1]:
-            task.status_reverse()
-            self._done_tasks.remove(task)
-            self._doing_tasks.append(task)
+        for task in self.tasks:
+            if task.status == "done":
+                task.status_reverse()
         self.dump_tasks()
 
     def set_order(self, orders=None):

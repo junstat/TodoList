@@ -12,6 +12,11 @@ class TaskOperatorTest(unittest.TestCase):
     def setUp(self):
         self.worker = TaskOperator()
 
+    def test_change_task_title(self):
+        task_num = u'2'
+        new_title = u'this is a test title'
+        self.worker.change_task_title(task_num, new_title)
+
     def test_del_one_task(self):
         self.worker.del_one_task("done", u"1")
         for task in self.worker.tasks:
