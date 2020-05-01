@@ -55,6 +55,14 @@ class TaskOperator(Singleton):
         self.load_tasks()
         self.sort_tasks()
 
+    def exchange_tasks(self, from_num, to_num):
+        if isinstance(from_num, basestring) or isinstance(to_num, basestring):
+            from_num = int(from_num) - 1
+            to_num = int(to_num) - 1
+        self._doing_tasks[from_num].display_num = to_num
+        self._doing_tasks[to_num].display_num = from_num
+        self.dump_tasks()
+
     def change_task_title(self, task_num, new_title):
         if isinstance(task_num, basestring):
             task_num = int(task_num) - 1

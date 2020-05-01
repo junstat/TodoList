@@ -19,6 +19,7 @@ def parse_argument(func):
 
         # build argument parser to parse script args and collect their values
         parser = argparse.ArgumentParser()
+        parser.add_argument('--exchange', action="append")
         parser.add_argument('--add', dest='new_task', nargs='?', default=None)  # add new task
         parser.add_argument('--reset', action="store_true")
         parser.add_argument('--change_title', action="append")
@@ -62,6 +63,10 @@ def parse_argument(func):
             return 0
         elif args.reset:
             worker.reset_tasks()
+            return 0
+        elif args.exchange:
+            from_num, to_num = args.exchange
+            worker.exchange_tasks(from_num, to_num)
             return 0
         return func(wf)
 
